@@ -57,12 +57,14 @@ if __name__ == "__main__":
     try:
         dac = MCP4725(dynamic_range, 0x61, True)
 
+        freq = 5  
+        sampling_frequency = 50  
+        t = 0.0
+
         while True:
-            amplitude = sg.get_sin_wave_amplitude(frequency, t)
-            voltage = amplitude * dynamic_range
-
+            amp = sg.triangle_signal(freq, t)    
+            voltage = amp * dac.dynamic_range
             dac.set_voltage(voltage)
-
             sg.wait_for_sampling_period(sampling_frequency)
             t += 1.0 / sampling_frequency
 

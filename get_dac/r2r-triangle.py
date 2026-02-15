@@ -44,7 +44,7 @@ try:
     sampling_frequency=50
     t=0
     while True:
-        amp = sg.get_sin_wave_amplitude(freq, t)    
+        amp = sg.triangle_signal(freq, t)    
         voltage = amp * dynamic_range
         dac.set_voltage(voltage)
         sg.wait_for_sampling_period(sampling_freq)
