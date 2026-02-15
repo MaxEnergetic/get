@@ -25,14 +25,14 @@ class PWM_DAC:
 if __name__ == "__main__":
     try:
         dac = PWM_DAC(12, 500, 3.290, True)
-        
+        dynamic_range = 3.183
+        freq=5
+        sampling_frequency=50
         while True:
-            try:
-                voltage = float(input("Введите напряжение в Вольтах: "))
-                dac.set_voltage(voltage)
-
-            except ValueError:
-                print("Вы ввели не число. Попробуйте ещё раз\n")
-
+            amp = sg.get_sin_wave_amplitude(freq, t)    
+            voltage = amp * dynamic_range
+            dac.set_voltage(voltage)
+            sg.wait_for_sampling_period(sampling_freq)
+            t += 1.0 / sampling_free
     finally:
         dac.deinit()
