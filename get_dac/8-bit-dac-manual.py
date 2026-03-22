@@ -1,40 +1,41 @@
-import RPi.GPIO as gpio
+import RPi.GPIO as GPIO
+import time
 
-pins = [16, 20, 21, 25, 26, 17, 27, 22]
+GPIO.setmode(GPIO.BCM)
 
-gpio.setmode(gpio.BCM)
-gpio.setup(pins, gpio.OUT)
+dac_bits = [16,20,21,25,26,17,27,22]
 
-dynamic_range = 3.3
+num = 0
+
+GPIO.setup(dac_bits, GPIO.OUT)
+GPIO.output(dac_bits, 0)
+
+dynamic_range = 3.131
 
 def voltage_to_number(voltage):
     if not (0.0 <= voltage <= dynamic_range):
         print(f"Напряжение выходит за динамический диапазон ЦАП (0.00 - {dynamic_range:.2f} В)")
-        print("Устанавливаем 0.0 В")
+        print("Устанавлниваем 0.0 В")
         return 0
 
     return int(voltage / dynamic_range * 255)
 
-
-def number_to_bits(number):
-    return [int(bit) for bit in bin(number)[2:].zfill(8)]
-
+def dec2bin(num):
+    return [int(bit) for bit in bin(num)[2:].zfill(8)]
 
 try:
     while True:
         try:
             voltage = float(input("Введите напряжение в Вольтах: "))
-            
-            number = voltage_to_number(voltage)
-            bits = number_to_bits(number)
-
-            gpio.output(pins, bits)
-
-            print(f"Число на вход ЦАП: {number}, биты: {bits}")
-
+            num = voltage_to_number(voltage)
+            dec2bin(num)
+            GPIO.output(dac_bits, dec2bin(num))
         except ValueError:
             print("Вы ввели не число. Попробуйте ещё раз\n")
 
 finally:
-    gpio.output(pins, 0)
-    gpio.cleanup()
+    GPIO.output(dac_bits, 0)
+    GPIO.cleanup()
+
+
+

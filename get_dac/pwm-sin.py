@@ -1,22 +1,20 @@
-import r2r_dac as r2r
+import pwm_dac as pw
 import signal_generator as sg
 import time
 
 t = 0
 amplitude = 3.2
 signal_frequency = 10
-sampling_frequency = 1000
-dynamic_range = 3.183
+sampling_frequency = 50
 
 try:
-    dac= r2r.R2R_DAC([16,20,21,25,26,17,27,22], dynamic_range, True)
-    
+    pwm = pw.PWM_DAC(12, 500, 3.28, True)
+
     while True:
         a = sg.get_sin_wave_amplitude(signal_frequency, t)
         voltage = a * amplitude
-        dac.set_voltage(voltage)
+        pwm.set_voltage(voltage)
         sg.wait_for_sampling_period(sampling_frequency)
-        t = t + 1.0 / sampling_frequency       
-
+        t = t + 1.0 / sampling_frequency 
 finally:
-    dac.deinit()
+    pwm.deinit()
