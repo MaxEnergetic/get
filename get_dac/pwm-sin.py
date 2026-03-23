@@ -4,7 +4,7 @@ import time
 
 t = 0
 amplitude = 3.2
-signal_frequency = 12
+signal_frequency = 5
 sampling_frequency = 500
 
 try:
