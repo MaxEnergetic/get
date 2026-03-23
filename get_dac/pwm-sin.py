@@ -5,10 +5,10 @@ import time
 t = 0
 amplitude = 3.13
 signal_frequency = 5
-sampling_frequency = 200
+sampling_frequency = 250
 
 try:
-    pwm = pw.PWM_DAC(12, 1000, 3.13, True)
+    pwm = pw.PWM_DAC(12, 500, 3.13, True)
 
     while True:
         a = sg.get_sin_wave_amplitude(signal_frequency, t)
