@@ -4,15 +4,16 @@ import time
 
 t = 0
 amplitude = 3.2
-signal_frequency = 10
-sampling_frequency = 50
+signal_frequency = 12
+sampling_frequency = 500
 
 try:
-    pwm = pw.PWM_DAC(12, 500, 3.28, True)
+    pwm = pw.PWM_DAC(12, 500, 3.13, True)
 
     while True:
         a = sg.get_sin_wave_amplitude(signal_frequency, t)
         voltage = a * amplitude
+        print(voltage)
         pwm.set_voltage(voltage)
         sg.wait_for_sampling_period(sampling_frequency)
         t = t + 1.0 / sampling_frequency 
